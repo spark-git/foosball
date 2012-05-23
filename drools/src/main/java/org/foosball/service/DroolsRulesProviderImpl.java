@@ -11,6 +11,8 @@ import org.drools.io.ResourceFactory;
 import org.foosball.domain.Player;
 import org.foosball.domain.Team;
 
+import com.google.common.base.Preconditions;
+
 class DroolsRulesProviderImpl implements RulesProvider {
 	final List<String> allRules;
 	private KnowledgeBase kbase;
@@ -34,6 +36,7 @@ class DroolsRulesProviderImpl implements RulesProvider {
 	}
 
 	public List<Team> executeRules(List<Player> allPlayer) {
+		Preconditions.checkState(false, "Not implemented!");
 		return null;
 	}
 }
