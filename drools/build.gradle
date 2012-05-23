@@ -1,8 +1,8 @@
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'application'
+//apply plugin: 'application'
 
-mainClassName = "org.foosball.Main"
+//mainClassName = "org.foosball.Main"
 
 version = 1.0
 
