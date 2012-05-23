@@ -7,11 +7,14 @@ import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
+import org.drools.command.Command;
+import org.drools.command.CommandFactory;
 import org.drools.io.ResourceFactory;
+import org.drools.runtime.StatelessKnowledgeSession;
 import org.foosball.domain.Player;
 import org.foosball.domain.Team;
 
-import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 class DroolsRulesProviderImpl implements RulesProvider {
 	final List<String> allRules;
@@ -36,7 +39,14 @@ class DroolsRulesProviderImpl implements RulesProvider {
 	}
 
 	public List<Team> executeRules(List<Player> allPlayer) {
-		Preconditions.checkState(false, "Not implemented!");
-		return null;
+		StatelessKnowledgeSession ksession = kbase
+				.newStatelessKnowledgeSession();
+		List<Team> teams = Lists.newArrayList();
+		List<Command> cmds = Lists.newArrayList(
+				CommandFactory.newInsertElements(allPlayer),
+				CommandFactory.newSetGlobal("teams", teams),
+				CommandFactory.newFireAllRules());
+		ksession.execute(CommandFactory.newBatchExecution(cmds));
+		return teams;
 	}
 }

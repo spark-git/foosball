@@ -1,29 +1,20 @@
-#created on: 19/Mai/2012
 package org.foosball
-
-#list any import classes here.
-
-
-
-#declare any global variables here
+import org.foosball.domain.Player
+import org.foosball.domain.Team
 
 
+global java.util.List teams
 
 
-rule "Your First Rule"
-
+rule "Naive pairUp players"
     when
-        #conditions
+    	p1: Player()
+    	p2: Player( name != p1.name, p1.handicap <= handicap)
     then
-        #actions
-
-end
-
-rule "Your Second Rule"
-    #include attributes such as "salience" here...
-    when
-        #conditions
-    then
-        #actions
-
+    	//teams.add( new Team(p1,p2));
+    	System.out.println(p1);
+    	System.out.println(p2);
+    	System.out.println("==============================");
+        //retract(p1);
+        //retract(p2);
 end
