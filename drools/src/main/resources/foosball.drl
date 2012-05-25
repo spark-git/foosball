@@ -10,11 +10,13 @@ rule "Naive pairUp players"
     when
     	p1: Player()
     	p2: Player( name != p1.name, p1.handicap <= handicap)
+    	not( Player( handicap < p1.handicap ) )
+    	not(Player( handicap  > p2.handicap ))
+    	not( Team( playerA == p1 || playerB == p1 ) from teams )     	
     then
-    	//teams.add( new Team(p1,p2));
-    	System.out.println(p1);
-    	System.out.println(p2);
-    	System.out.println("==============================");
-        //retract(p1);
-        //retract(p2);
+        Team t = new Team(p1,p2);
+    	teams.add(t);
+    	System.out.println(t);
+    	update(p1);
+    	update(p2);
 end
