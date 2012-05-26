@@ -5,3 +5,6 @@ body {
 a {
   color: #00b7ff;
 }
+p {
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
