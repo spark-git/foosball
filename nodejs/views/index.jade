@@ -1,2 +1,8 @@
 h1= title
-p Welcome to #{title}
+    - each player in players
+      div.player
+        div.created_at= player.created_at
+        div.title
+          a(href="/player/" + player._id)!= player.name
+
+           
