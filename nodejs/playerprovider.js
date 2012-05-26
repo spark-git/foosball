@@ -18,7 +18,7 @@ PlayerProvider.prototype.getCollection = function(callback) {
             else
                 callback(null, player_collection);
         }
-    );  
+    );
 };
 
 PlayerProvider.prototype.findAll = function(callback) {
@@ -51,8 +51,7 @@ PlayerProvider.prototype.findById = function(id, callback) {
                 );
             }
         }
-    );   
-
+    );
 };
 
 PlayerProvider.prototype.save = function(players, callback) {
@@ -63,21 +62,21 @@ PlayerProvider.prototype.save = function(players, callback) {
                 // Set player into array if it isn't one.
                 if (typeof(players.length) == "undefined")
                     players = [players];
-                
+
                 for (var i = 0; i < players.length; i++) {
                     player = players[i];
                     player.created_at = new Date();
                 }
 
                 player_collection.insert(
-                    players, 
+                    players,
                     function() {
                         callback(null, players);
                     }
                 );
             }
         }
-    );    
+    );
 };
 
 exports.PlayerProvider = PlayerProvider;

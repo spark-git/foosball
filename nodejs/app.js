@@ -50,6 +50,21 @@ app.get(
     }
 );
 
+
+app.post(
+    '/player/new',
+    function(req, res) {
+        console.log(req.body.user);
+        player = { first_name: req.param('first_name', null), last_name: req.param('last_name', null)};
+        playerProvider.save(
+            player,
+            function(error, docs) {
+                res.redirect('/');
+            }
+        );
+    }
+);
+
 app.listen(
     3000, 
     function() {
