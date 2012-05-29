@@ -51,7 +51,6 @@ app.get(
 app.post(
     '/player/new',
     function(req, res) {
-        console.log(req.body.user);
         var player = { first_name: req.param('first_name', null), last_name: req.param('last_name', null) };
         playerProvider.save(
             player,
@@ -61,6 +60,19 @@ app.post(
         );
     }
 );
+
+app.get(
+    '/player/:id',
+    function(req, res) {
+        playerProvider.findById(
+            req.param('id'),
+            function(error, docs) {
+                res.render('player.jade', { locals: { title: 'Foosball', player: docs }});
+            }
+        );
+    }
+);
+
 
 app.listen(
     3000, 

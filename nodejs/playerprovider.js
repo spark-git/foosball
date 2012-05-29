@@ -18,8 +18,9 @@ mongoose.model('Player', Player);
 
 var League = new Schema(
     {
-        name    : { type: String }, 
-        teams: [Player],
+        name : { type: String }, 
+        owner: { type: Schema.ObjectId, ref: 'Player' },
+        teams: [{ type: Schema.ObjectId, ref: 'Player' }],
         created_at : { type: Date },
         updated_at : { type: Date }     
     }
@@ -27,6 +28,7 @@ var League = new Schema(
 mongoose.model('League', League);
 
 var player = mongoose.model('Player');
+var league = mongoose.model('League');
 
 var PlayerProvider = function(){};
 
@@ -41,9 +43,9 @@ PlayerProvider.prototype.findAll = function(callback) {
 PlayerProvider.prototype.findById = function(id, callback) {
     player.findById(
         id, 
-        function (err, post) {
+        function (err, player) {
             if (!err) {
-                callback(null, post);
+                callback(null, player);
             }
         }
     );
@@ -69,4 +71,16 @@ PlayerProvider.prototype.save = function(form, callback) {
     p.save(function (err) { callback(); });
 };
 
+var LeagueProvider = function(){};
+LeagueProvider.prototype.save = function(form, callback) {
+    var l = new league(form);
+    l.save(function (err) { callback(); });
+};
+
+LeagueProvider.prototype.addTeamToLeague = function(id, player, callback) {
+    
+};
+
+
 exports.PlayerProvider = PlayerProvider;
+exports.LeagueProvider = LeagueProvider;
