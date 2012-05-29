@@ -8,6 +8,7 @@ This is the node.js implementation of the foosball league manager.
 * Start mongodb server:
 
     mongod --dbpath C:/tmp/data
+
 ### Set up the Node.js app
 
 * Start server:
@@ -26,6 +27,11 @@ This is the node.js implementation of the foosball league manager.
 
 * http://shapeshed.com/creating-a-basic-site-with-node-and-express/
 * http://howtonode.org/express-mongodb
+
+## Useful Examples
+
+* https://github.com/cmarin/MongoDB-Node-Express-Blog
+
 
 ## Libraries used
 
