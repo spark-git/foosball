@@ -1,9 +1,8 @@
 h1= title
 - each player in players
   div.player
-      div.name= player.first_name+' '+player.last_name
       div.title
-          a(href="/player/" + player._id)!= player.name
+          a(href="/player/" + player._id)= player.first_name+' '+player.last_name
 
 form(action="/player/new", method="post")
   p
@@ -13,4 +12,4 @@ form(action="/player/new", method="post")
     label(for="last_name") Last Name:
     input#last_name(name="last_name")
   p.buttons
-    input(type="submit", value="Create")     
+    input(type="submit", value="Create")
