@@ -2,9 +2,6 @@
 var express = require('express');
 var routes = require('./routes');
 
-
-var PlayerProvider = require('./playerprovider').PlayerProvider;
-
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -35,10 +32,11 @@ app.configure(
     }
 );
 
-var playerProvider = new PlayerProvider('localhost', 27017);
+var PlayerProvider = require('./playerprovider').PlayerProvider;
+var playerProvider = new PlayerProvider();
+
 
 // Routes
-
 app.get(
     '/', 
     function(req, res) {
@@ -50,12 +48,11 @@ app.get(
     }
 );
 
-
 app.post(
     '/player/new',
     function(req, res) {
         console.log(req.body.user);
-        player = { first_name: req.param('first_name', null), last_name: req.param('last_name', null)};
+        var player = { first_name: req.param('first_name', null), last_name: req.param('last_name', null) };
         playerProvider.save(
             player,
             function(error, docs) {

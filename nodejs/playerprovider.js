@@ -1,82 +1,72 @@
-var Db = require('mongodb').Db;
-var Connection = require('mongodb').Connection;
-var Server = require('mongodb').Server;
-var BSON = require('mongodb').BSON;
-var ObjectID = require('mongodb').ObjectID;
+// Mongoose setup
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/node-mongo-foosball');
 
-PlayerProvider = function(host, port) {
-    this.db = new Db('node-mongo-foosball', new Server(host, port, {auto_reconnect: true}, {}));
-    this.db.open(function() {});
-};
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
-// returns a collection of players
-PlayerProvider.prototype.getCollection = function(callback) {
-    this.db.collection(
-        'players',
-        function(error, player_collection) {
-            if (error) callback(error);
-            else
-                callback(null, player_collection);
-        }
-    );
-};
 
+var Player = new Schema(
+    {
+        first_name: { type: String },
+        last_name: {  type:String },
+        created_at : { type: Date },
+        updated_at : { type: Date }
+    }
+);
+mongoose.model('Player', Player);
+
+var League = new Schema(
+    {
+        name    : { type: String }, 
+        teams: [Player],
+        created_at : { type: Date },
+        updated_at : { type: Date }     
+    }
+);
+mongoose.model('League', League);
+
+var player = mongoose.model('Player');
+
+var PlayerProvider = function(){};
+
+// Find all players
 PlayerProvider.prototype.findAll = function(callback) {
-    this.getCollection(
-        function(error, player_collection) {
-            if (error) callback(error);
-            else {
-                player_collection.find().toArray(
-                    function(error, results) {
-                        if (error) callback(error);
-                        else callback(null, results);
-                    }
-                );
-            }
-        }
-    );
+  player.find({}, function (err, posts) {
+    callback( null, posts );
+  });
 };
 
+// Find player by id.
 PlayerProvider.prototype.findById = function(id, callback) {
-    this.getCollection(
-        function(error, player_collection) {
-            if (error) callback(error);
-            else {
-                player_collection.findOne(
-                    {_id: player_collection.db.bson_serializer.ObjectID.createFromHexString(id)},
-                    function(error, result) {
-                        if (error) callback(error);
-                        else callback(null, result);
-                    }
-                );
+    player.findById(
+        id, 
+        function (err, post) {
+            if (!err) {
+                callback(null, post);
             }
         }
     );
 };
 
-PlayerProvider.prototype.save = function(players, callback) {
-    this.getCollection(
-        function(error, player_collection) {
-            if (error) callback(error);
-            else {
-                // Set player into array if it isn't one.
-                if (typeof(players.length) == "undefined")
-                    players = [players];
-
-                for (var i = 0; i < players.length; i++) {
-                    player = players[i];
-                    player.created_at = new Date();
-                }
-
-                player_collection.insert(
-                    players,
-                    function() {
-                        callback(null, players);
-                    }
-                );
+// Update player by id.
+PlayerProvider.prototype.updateById = function(id, body, callback) {
+    player.findById(
+        id,
+        function (err, player) {
+            if (!err) {
+                player.first_name = body.first_name;
+                player.last_name = body.last_name;
+                post.save(function (err) { callback(); });
             }
         }
     );
+};
+
+// Create a new player
+PlayerProvider.prototype.save = function(form, callback) {
+    var p = new player(form);
+    p.save(function (err) { callback(); });
 };
 
 exports.PlayerProvider = PlayerProvider;
