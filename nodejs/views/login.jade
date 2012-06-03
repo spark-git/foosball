@@ -1,0 +1,9 @@
+h1= title
+
+form(action="/auth/openid", method="post")
+  p
+    label(for="openid_identifier") OpenID:
+    input#openid_identifier(name="openid_identifier")
+ 
+  p.buttons
+    input(type="submit", value="Submit")

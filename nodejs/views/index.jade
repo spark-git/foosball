@@ -13,3 +13,13 @@ form(action="/player/new", method="post")
     input#last_name(name="last_name")
   p.buttons
     input(type="submit", value="Create")
+    
+form(action="/player/auth", method="post")
+  p
+    label(for="first_name") First Name:
+    input#first_name(name="first_name")
+  p
+    label(for="last_name") Last Name:
+    input#last_name(name="last_name")
+  p.buttons
+    input(type="submit", value="Create")
