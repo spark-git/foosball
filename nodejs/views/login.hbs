@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+   	<link rel="stylesheet" type="text/css" href="../public/stylesheets/main.css" />
+   </head>
+	<body>
+		<h1> {{title}} </h1>
+		<form action="/auth/openid" method="post">
+			<div>
+				<input type="text" name="openid_identifier"/>
+				<br/>
+			</div>
+			<div>
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+	</body>
+</html>

@@ -4,6 +4,7 @@ var express = require('express')
   , util = require('util')
   , OpenIDStrategy = require('passport-openid').Strategy;
   
+  
 var routes = require('./routes');
 
 var app = module.exports = express.createServer();
@@ -49,7 +50,10 @@ passport.use(new OpenIDStrategy({
 app.configure(
     function(){
         app.set('views', __dirname + '/views');
-        app.set('view engine', 'jade');
+//        app.set('view engine', 'jade');
+		app.set('view engine', 'handlebars');
+	    app.set("view options", { layout: false }) 
+        app.register('.hbs', require('handlebars'));
         app.use(express.bodyParser());
         app.use(express.methodOverride());
         app.use(require('stylus').middleware({ src: __dirname + '/public' }));
@@ -65,7 +69,7 @@ app.configure(
 	    app.use(passport.session());  
         
         app.use(app.router);
-        app.use(express.static(__dirname + '/public'));
+        app.use("/public", express.static(__dirname + '/public'));
     }
 );
 
@@ -93,7 +97,7 @@ app.get(
     function(req, res) {
         playerProvider.findAll(
             function(error, docs) {
-                res.render('index.jade', { locals: { title: 'Foosball', players: docs}});
+                res.render('home.hbs', { locals: { title: 'Foosball', players: docs}});
             }
         );
     }
@@ -104,7 +108,7 @@ app.get(
     function(req, res) {
         playerProvider.findAll(
             function(error, docs) {
-                res.render('login.jade', { locals: { title: 'Foosball', players: docs, user: req.user}});
+                res.render('login.hbs', { locals: { title: 'Foosball', players: docs, user: req.user}});
             }
         );
     }
@@ -161,11 +165,12 @@ app.get('/logout', function(req, res){
 
 app.get(
     '/player/:id',
+    ensureAuthenticated,
     function(req, res) {
         playerProvider.findById(
             req.param('id'),
             function(error, docs) {
-                res.render('player.jade', { locals: { title: 'Foosball', player: docs }});
+                res.render('player.hbs', { locals: { title: 'Foosball', player: docs }});
             }
         );
     }
