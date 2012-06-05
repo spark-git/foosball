@@ -14,7 +14,12 @@ This is the node.js implementation of the foosball league manager.
 * Start server:
     nodejs app.js
 
+### set up sass
 
+* Download sass
+* go to the views directory
+* run the command: 
+		sass --watch main.scss:main.css
 
 
 ## Some MongoDB Shell commands
@@ -27,6 +32,11 @@ This is the node.js implementation of the foosball league manager.
 
 * http://shapeshed.com/creating-a-basic-site-with-node-and-express/
 * http://howtonode.org/express-mongodb
+
+# Openid
+
+* using passport-openid for nodejs
+* the google openid is http://www.google.com/accounts/o8/id
 
 ## Useful Examples
 
