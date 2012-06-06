@@ -1,7 +1,7 @@
 package org.foosball
 import org.foosball.domain.Player
 import org.foosball.domain.Team
-
+import function org.foosball.service.Helper.*
 
 global java.util.List teams
 
@@ -14,9 +14,5 @@ rule "Naive pairUp players"
     	not(Player( handicap  > p2.handicap ))
     	not( Team( playerA == p1 || playerB == p1 ) from teams )     	
     then
-        Team t = new Team(p1,p2);
-    	teams.add(t);
-    	System.out.println(t);
-    	update(p1);
-    	update(p2);
+    	teamUp(kcontext,p1,p2);
 end

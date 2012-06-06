@@ -1,5 +1,6 @@
 package org.foosball.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.drools.KnowledgeBase;
@@ -38,9 +39,22 @@ class DroolsRulesProviderImpl implements RulesProvider {
 		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
 	}
 
-	public List<Team> executeRules(List<Player> allPlayer) {
+	public List<Team> executeRules(List<Player> allPlayers) {
 		StatelessKnowledgeSession ksession = kbase
 				.newStatelessKnowledgeSession();
+		List<Team> teams = Lists.newArrayList();
+		while (!allPlayers.isEmpty()) {
+			List<Team> newTeams = runEvaluation(allPlayers, ksession);
+			teams.addAll(newTeams);
+			for (Team team : newTeams) {
+				allPlayers.removeAll(team.players());
+			}
+		}
+		return teams;
+	}
+
+	private List<Team> runEvaluation(List<Player> allPlayer,
+			StatelessKnowledgeSession ksession) {
 		List<Team> teams = Lists.newArrayList();
 		List<Command> cmds = Lists.newArrayList(
 				CommandFactory.newInsertElements(allPlayer),
