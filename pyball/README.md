@@ -12,15 +12,20 @@ Download and install Django 1.4
 
 # Setup App
 
-## Setup Sqlite DB
+## Setup DB
 
-* Create the following directory structure on your machine.
+* Create the following directory structure on your machine:
 c:/temp/foosball/data
 
 * From within pyball_site/ run the follwing command
 python manage.py syncdb
 
-The first time you run this command you will be prompted to create a super user.
+Note: The first time you run this command you will be prompted to create a super user.
+
+### Run the server
+
+* Run the following command from within pyball_site
+python manage.py runserver
 
 # Useful Examples
 
